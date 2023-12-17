@@ -155,5 +155,7 @@ export async function createPdf(data, dataCallback, endCallback) {
 
   table.addBody(tableData);
 
+  
+
   doc.end();
 }
