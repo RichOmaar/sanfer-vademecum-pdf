@@ -7,10 +7,10 @@ const router = Router();
 router.get('/invoice', async (req, res) => {
     try {
         // Fetch data from the Strapi API
-        const data = await fetchDataFromStrapi(58); // Implement this function based on your Strapi API
-        console.log(data.Nombre.replace(/ /g, '-'));
+        const data = await fetchDataFromStrapi(50); // Implement this function based on your Strapi API
+        console.log(data.Descripcion);
         // Set the headers for PDF response
-        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Type', 'application/pdf; charset=utf-8');
         res.setHeader('Content-Disposition', 'attachment; filename=' + data.Nombre.replace(/ /g, '-') + '.pdf');
 
         // Pass the response stream to createPdf function
