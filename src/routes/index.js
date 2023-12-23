@@ -1,14 +1,16 @@
-import { Router } from "express";
 import { createPdf } from "../libs/pdfKit.js";
 import { PDFDocument } from "pdf-lib";
 import { fetchDataFromStrapi } from "../services/strapi.js";
-import { all } from "axios";
+import express from "express";
+import bodyParser from "body-parser";
 
-const router = Router();
+const router = express.Router();
+
+router.use(bodyParser.json());
 
 async function combinePdfs(pdfBuffers) {
   const combinedPdf = await PDFDocument.create();
-
+  
   for (const pdfBytes of pdfBuffers) {
     const pdf = await PDFDocument.load(pdfBytes);
     const pages = await combinedPdf.copyPages(pdf, pdf.getPageIndices());
@@ -16,19 +18,19 @@ async function combinePdfs(pdfBuffers) {
       combinedPdf.addPage(page);
     }
   }
-
+  
   return await combinedPdf.save();
 }
 
-router.get("/invoice", async (req, res) => {
-  const medicinsArray = [
-    { id: 3 },
-    { id: 105 },
-    { id: 18 },
-    { id: 25 },
-    { id: 66 },
-  ];
-
+router.post("/invoice", async (req, res) => {
+  const medicinsArray = req.body;
+  // const medicinsArray = [
+  //   { id: 3 },
+  //   { id: 105 },
+  //   { id: 18 },
+  //   { id: 25 },
+  //   { id: 66 },
+  // ];
   try {
     // Fetch all data from Strapi concurrently
     const allData = await Promise.all(
@@ -51,6 +53,7 @@ router.get("/invoice", async (req, res) => {
 
     // Send the combined PDF to the client
     res.end(combinedPdfBytes);
+    // res.status(200).send('Received POST request');
   } catch (error) {
     console.error("Error fetching data from Strapi:", error);
     res.status(500).send("Internal Server Error");

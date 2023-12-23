@@ -1,4 +1,3 @@
-// index.js in the root
 import express from 'express';
 import indexRoutes from './routes/index.js';
 
