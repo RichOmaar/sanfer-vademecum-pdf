@@ -7,7 +7,7 @@ import stream from "stream";
 
 async function createNewPage(doc, data, PrincipioActivo, Nombre, logoSanferBuffer) {
   return new Promise(async (resolve, reject) => {
-    console.log("data =>",data);
+    // console.log("data =>",data);
     doc.addPage();
 
     const centerX = (doc.page.width - 100) / 2;
@@ -392,18 +392,19 @@ export async function createPdf(data) {
         console.log(err);
       }
     }
-    if (data.presentacionSwitch && data.presentacion.length > 0) {
-      // console.log("data.presentacionSwitch =>",doc);
-      for (const presentacionItem of data.presentacion) {
-        await createNewPage(
-          doc,
-          presentacionItem,
-          data.PrincipioActivo,
-          data.Nombre,
-          logoSanferBuffer
-        );
-      }
-    }
+
+    // if (data.presentacionSwitch && data.presentacion.length > 0) {
+    //   // console.log("data.presentacionSwitch =>",doc);
+    //   for (const presentacionItem of data.presentacion) {
+    //     await createNewPage(
+    //       doc,
+    //       presentacionItem,
+    //       data.PrincipioActivo,
+    //       data.Nombre,
+    //       logoSanferBuffer
+    //     );
+    //   }
+    // }
 
     // Move doc.end() to this position, after handling all asynchronous operations
     doc.pipe(writableStream);
