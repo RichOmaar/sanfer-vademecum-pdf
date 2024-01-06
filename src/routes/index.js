@@ -29,19 +29,22 @@ router.post("/pdf", async (req, res) => {
     const allData = await Promise.all(
       medicinsArray.map((medicin) => fetchDataFromStrapi(medicin.id))
     );
-    res.setHeader("Content-Type", "application/pdf; charset=utf-8");
-    res.setHeader("Content-Disposition", "attachment; filename=combined.pdf");
+    // res.setHeader("Content-Type", "application/pdf; charset=utf-8");
+    // res.setHeader("Content-Disposition", "attachment; filename=combined.pdf");
 
-    const pdfBuffers = [];
+    // const pdfBuffers = [];
 
-    for (const data of allData) {
-      const pdfBytes = await createPdf(data);
-      pdfBuffers.push(pdfBytes);
-    }
+    // for (const data of allData) {
+    //   const pdfBytes = await createPdf(data);
+    //   pdfBuffers.push(pdfBytes);
+    // }
 
-    const combinedPdfBytes = await combinePdfs(pdfBuffers);
+    // const combinedPdfBytes = await combinePdfs(pdfBuffers);
 
-    res.end(combinedPdfBytes);
+    // console.log(Buffer.from(combinedPdfBytes))
+    // res.end(Buffer.from(combinedPdfBytes));
+      console.log(allData);
+      res.send(allData);
 
   } catch (error) {
     console.error("Error fetching data from Strapi:", error);
