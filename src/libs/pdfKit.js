@@ -5,8 +5,9 @@ import fitColumn from "voilab-pdf-table/plugins/fitcolumn.js";
 import bwipjs from "bwip-js";
 import stream from "stream";
 
-async function createNewPage(doc, data, PrincipioActivo, logoSanferBuffer) {
+async function createNewPage(doc, data, PrincipioActivo, Nombre, logoSanferBuffer) {
   return new Promise(async (resolve, reject) => {
+    console.log("data =>",data);
     doc.addPage();
 
     const centerX = (doc.page.width - 100) / 2;
@@ -36,147 +37,147 @@ async function createNewPage(doc, data, PrincipioActivo, logoSanferBuffer) {
       .moveDown(15)
       .text(PrincipioActivo, { align: "center" });
 
-    doc.font("Helvetica-Bold").fontSize(18);
-    doc.fillColor("#f32d36").moveDown(1).text(data.Nombre, { align: "center" });
+    // doc.font("Helvetica-Bold").fontSize(18);
+    // doc.fillColor("#f32d36").moveDown(1).text(data.Nombre, { align: "center" });
 
-    doc.font("Helvetica-Bold").fontSize(30);
-    doc
-      .fillColor("#222428")
-      .text("____________________________", { align: "center" });
+    // doc.font("Helvetica-Bold").fontSize(30);
+    // doc
+    //   .fillColor("#222428")
+    //   .text("____________________________", { align: "center" });
 
-    // Create a new PDFTable instance
-    const table = new PDFTable(doc, {
-      bottomMargin: 30,
-      margin: { bottom: 20 },
-    });
+    // // Create a new PDFTable instance
+    // const table = new PDFTable(doc, {
+    //   bottomMargin: 30,
+    //   margin: { bottom: 20 },
+    // });
 
-    // Define columns
-    table.addColumns([
-      { id: "description", header: "", width: 40 },
-      { id: "value", header: "", width: 360 },
-    ]);
+    // // Define columns
+    // table.addColumns([
+    //   { id: "description", header: "", width: 50 },
+    //   { id: "value", header: "", width: 350 },
+    // ]);
 
-    doc.font("Helvetica").fontSize(12);
-    doc.fillColor("#222428");
-    // Add table data
-    table.addPlugin(new fitColumn({ column: "description" }));
+    // doc.font("Helvetica").fontSize(12);
+    // doc.fillColor("#222428");
+    // // Add table data
+    // table.addPlugin(new fitColumn({ column: "description" }));
 
-    const tableData = [
-      {
-        description: "Denominación genérica:",
-        value: !data.PrincipioActivo ? "N/A" : data.PrincipioActivo,
-      },
-      {
-        description: "________________",
-        value: "_____________________________________________________",
-      },
-      {
-        description: "Acción terapéutica:",
-        value: !data.Descripcion ? "N/A" : data.Descripcion.normalize("NFKC"),
-      },
-      {
-        description: "________________",
-        value: "_____________________________________________________",
-      },
-      {
-        description: "Concentración:",
-        value: !data.Concentracion ? "N/A" : data.Concentracion,
-      },
-      {
-        description: "________________",
-        value: "_____________________________________________________",
-      },
-      {
-        description: "Conenido:",
-        value: !data.Contenido ? "N/A" : data.Contenido,
-      },
-      {
-        description: "________________",
-        value: "_____________________________________________________",
-      },
-      {
-        description: "Tipo de producto:",
-        value: !data.Tipo_de_producto
-          ? "N/A"
-          : data.Tipo_de_producto.replace(/_/g, " "),
-      },
-      {
-        description: "________________",
-        value: "_____________________________________________________",
-      },
-      {
-        description: "Unidad de negocio:",
-        value: !data.lineaNegocio ? "N/A" : data.lineaNegocio,
-      },
-      {
-        description: "________________",
-        value: "_____________________________________________________",
-      },
-      {
-        description: "Registro Sanitario:",
-        value: !data.Registro_sanitario ? "N/A" : data.Registro_sanitario,
-      },
-      {
-        description: "________________",
-        value: "_____________________________________________________",
-      },
-      {
-        description: "EAN:",
-        value: !data.SKU ? "N/A" : data.SKU,
-      },
-      {
-        description: "________________",
-        value: "_____________________________________________________",
-      },
-      {
-        description: "Laboratorio:",
-        value: !data.Laboratorio ? "N/A" : data.Laboratorio,
-      },
-    ];
+    // const tableData = [
+    //   {
+    //     description: "Denominación genérica:",
+    //     value: !data.PrincipioActivo ? "N/A" : data.PrincipioActivo,
+    //   },
+    //   {
+    //     description: "________________",
+    //     value: "_____________________________________________________",
+    //   },
+    //   {
+    //     description: "Acción terapéutica:",
+    //     value: !data.Descripcion ? "N/A" : data.Descripcion.normalize("NFKC"),
+    //   },
+    //   {
+    //     description: "________________",
+    //     value: "_____________________________________________________",
+    //   },
+    //   {
+    //     description: "Concentración:",
+    //     value: !data.Concentracion ? "N/A" : data.Concentracion,
+    //   },
+    //   {
+    //     description: "________________",
+    //     value: "_____________________________________________________",
+    //   },
+    //   {
+    //     description: "Conenido:",
+    //     value: !data.Contenido ? "N/A" : data.Contenido,
+    //   },
+    //   {
+    //     description: "________________",
+    //     value: "_____________________________________________________",
+    //   },
+    //   {
+    //     description: "Tipo de producto:",
+    //     value: !data.Tipo_de_producto
+    //       ? "N/A"
+    //       : data.Tipo_de_producto.replace(/_/g, " "),
+    //   },
+    //   {
+    //     description: "________________",
+    //     value: "_____________________________________________________",
+    //   },
+    //   {
+    //     description: "Unidad de negocio:",
+    //     value: !data.lineaNegocio ? "N/A" : data.lineaNegocio,
+    //   },
+    //   {
+    //     description: "________________",
+    //     value: "_____________________________________________________",
+    //   },
+    //   {
+    //     description: "Registro Sanitario:",
+    //     value: !data.Registro_sanitario ? "N/A" : data.Registro_sanitario,
+    //   },
+    //   {
+    //     description: "________________",
+    //     value: "_____________________________________________________",
+    //   },
+    //   {
+    //     description: "EAN:",
+    //     value: !data.SKU ? "N/A" : data.SKU,
+    //   },
+    //   {
+    //     description: "________________",
+    //     value: "_____________________________________________________",
+    //   },
+    //   {
+    //     description: "Laboratorio:",
+    //     value: !data.Laboratorio ? "N/A" : data.Laboratorio,
+    //   },
+    // ];
 
-    table.addBody(tableData);
+    // table.addBody(tableData);
 
-    // Generate barcode
-    if (data.SKU) {
-      // try {
-      //   const png = await bwipjs.toBuffer({
-      //     bcid: "ean13",
-      //     text: data.SKU,
-      //     scale: 3,
-      //     height: 10,
-      //     includetext: true,
-      //     textxalign: "center",
-      //   });
-      try {
-        const png = await bwipjs.toBuffer({
-          bcid: "code128", // Use code128 instead of ean13
-          text: data.SKU,
-          scale: 3,
-          height: 10,
-          includetext: true,
-          textxalign: "center",
-        });
+    // // Generate barcode
+    // if (data.SKU) {
+    //   // try {
+    //   //   const png = await bwipjs.toBuffer({
+    //   //     bcid: "ean13",
+    //   //     text: data.SKU,
+    //   //     scale: 3,
+    //   //     height: 10,
+    //   //     includetext: true,
+    //   //     textxalign: "center",
+    //   //   });
+    //   try {
+    //     const png = await bwipjs.toBuffer({
+    //       bcid: "code128", // Use code128 instead of ean13
+    //       text: data.SKU,
+    //       scale: 3,
+    //       height: 10,
+    //       includetext: true,
+    //       textxalign: "center",
+    //     });
 
-        const pageWidth = doc.page.width;
-        const barcodeWidth = 125;
-        const barcodeX = (pageWidth - barcodeWidth) / 2;
+    //     const pageWidth = doc.page.width;
+    //     const barcodeWidth = 125;
+    //     const barcodeX = (pageWidth - barcodeWidth) / 2;
 
-        const pageHeight = doc.page.height;
-        const barcodeHeight = 125;
-        const barcodeY = pageHeight - barcodeHeight;
+    //     const pageHeight = doc.page.height;
+    //     const barcodeHeight = 125;
+    //     const barcodeY = pageHeight - barcodeHeight;
 
-        doc.image(png, barcodeX, barcodeY, {
-          fit: [barcodeWidth, barcodeHeight],
-        });
+    //     doc.image(png, barcodeX, barcodeY, {
+    //       fit: [barcodeWidth, barcodeHeight],
+    //     });
 
-        resolve(); // Resolve the promise when barcode generation is complete
-      } catch (err) {
-        console.log(err);
-        reject(err); // Reject the promise if an error occurs
-      }
-    } else {
+    //     resolve(); // Resolve the promise when barcode generation is complete
+    //   } catch (err) {
+    //     console.log(err);
+    //     reject(err); // Reject the promise if an error occurs
+    //   }
+    // } else {
       resolve(); // Resolve the promise if there's no SKU
-    }
+    // }
   });
 }
 
@@ -193,7 +194,16 @@ export async function createPdf(data) {
 
     // const stream = blobStream(); // Create blob stream
 
-    const doc = new PDFDocument({ autoFirstPage: false });
+    const doc = new PDFDocument({ 
+      autoFirstPage: false,
+      size: 'A4',
+      margins: {
+        top: 50,
+        bottom: 50,
+        left: 60,    // reduce left margin
+        right: 60    // reduce right margin
+      }
+    });
 
     const logoSanfer = async () => {
       try {
@@ -271,7 +281,7 @@ export async function createPdf(data) {
 
     const tableData = [
       {
-        description: "Denominación genérica:",
+        description: "Principio activo:",
         value: !data.PrincipioActivo ? "N/A" : data.PrincipioActivo,
       },
       {
@@ -295,14 +305,6 @@ export async function createPdf(data) {
         value: "_____________________________________________________",
       },
       {
-        description: "Conenido:",
-        value: !data.Contenido ? "N/A" : data.Contenido,
-      },
-      {
-        description: "________________",
-        value: "_____________________________________________________",
-      },
-      {
         description: "Tipo de producto:",
         value: !data.Tipo_de_producto
           ? "N/A"
@@ -314,7 +316,7 @@ export async function createPdf(data) {
       },
       {
         description: "Unidad de negocio:",
-        value: !data.lineaNegocio ? "N/A" : data.lineaNegocio,
+        value: !data.udn ? "N/A" : data.udn,
       },
       {
         description: "________________",
@@ -330,7 +332,7 @@ export async function createPdf(data) {
       },
       {
         description: "EAN:",
-        value: !data.SKU ? "N/A" : data.SKU,
+        value: !data.ean ? "N/A" : data.ean,
       },
       {
         description: "________________",
@@ -342,14 +344,33 @@ export async function createPdf(data) {
       },
     ];
 
+    if (data.ippSwitch) {
+      data.ipp.forEach((ipp) => {
+        const ippData = {
+          description:
+            ipp.title.charAt(0).toUpperCase() +
+            ipp.title.slice(1).toLowerCase() +
+            ":",
+          value: ipp.description,
+        };
+
+        tableData.push({
+          description: "________________",
+          value: "_____________________________________________________",
+        });
+
+        tableData.push(ippData);
+      });
+    }
+
     table.addBody(tableData);
 
     // Generate barcode
-    if (data.SKU) {
+    if (data.ean) {
       try {
         const png = await bwipjs.toBuffer({
           bcid: "ean13",
-          text: data.SKU,
+          text: data.ean,
           scale: 3,
           height: 10,
           includetext: true,
@@ -371,13 +392,14 @@ export async function createPdf(data) {
         console.log(err);
       }
     }
-
-    if (data.Presentacion && data.Presentacion.length > 0) {
-      for (const presentacionItem of data.Presentacion) {
+    if (data.presentacionSwitch && data.presentacion.length > 0) {
+      // console.log("data.presentacionSwitch =>",doc);
+      for (const presentacionItem of data.presentacion) {
         await createNewPage(
           doc,
           presentacionItem,
           data.PrincipioActivo,
+          data.Nombre,
           logoSanferBuffer
         );
       }

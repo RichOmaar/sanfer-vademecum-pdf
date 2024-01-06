@@ -36,7 +36,7 @@ router.post("/invoice", async (req, res) => {
     const allData = await Promise.all(
       medicinsArray.map((medicin) => fetchDataFromStrapi(medicin.id))
     );
-
+      // console.log(allData[0].ipp);
     // Set the headers for PDF response
     res.setHeader("Content-Type", "application/pdf; charset=utf-8");
     res.setHeader("Content-Disposition", "attachment; filename=combined.pdf");
