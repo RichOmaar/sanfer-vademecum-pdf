@@ -24,28 +24,29 @@ async function combinePdfs(pdfBuffers) {
 
 router.post("/pdf", async (req, res) => {
   const medicinsArray = req.body;
-  console.log("medicinsArray => ",medicinsArray);
   try {
     const allData = await Promise.all(
       medicinsArray.map((medicin) => fetchDataFromStrapi(medicin.id))
     );
-    // res.setHeader("Content-Type", "application/pdf; charset=utf-8");
-    // res.setHeader("Content-Disposition", "attachment; filename=combined.pdf");
+    res.setHeader("Content-Type", "application/pdf; charset=utf-8");
+    res.setHeader("Content-Disposition", "attachment; filename=combined.pdf");
 
-    // const pdfBuffers = [];
+    const pdfBuffers = [];
 
-    // for (const data of allData) {
-    //   const pdfBytes = await createPdf(data);
-    //   pdfBuffers.push(pdfBytes);
-    // }
+    for (const data of allData) {
+      // Create a separate PDF for each medicine
+      const pdfBytes = await createPdf(data);
+      pdfBuffers.push(pdfBytes);
+    }
 
-    // const combinedPdfBytes = await combinePdfs(pdfBuffers);
+    const combinedPdfBytes = await combinePdfs(pdfBuffers);
 
-    // console.log(Buffer.from(combinedPdfBytes))
-    // res.end(Buffer.from(combinedPdfBytes));
-      console.log(allData);
-      res.send(allData);
-
+    // res.end(combinedPdfBytes);
+    console.log(combinedPdfBytes);
+    console.log('-------------------');
+    console.log(Buffer.from(combinedPdfBytes));
+    res.end(Buffer.from(combinedPdfBytes));
+    
   } catch (error) {
     console.error("Error fetching data from Strapi:", error);
     res.status(500).send("Internal Server Error");
