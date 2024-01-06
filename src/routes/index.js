@@ -24,6 +24,7 @@ async function combinePdfs(pdfBuffers) {
 
 router.post("/pdf", async (req, res) => {
   const medicinsArray = req.body;
+  console.log("medicinsArray => ",medicinsArray);
   try {
     const allData = await Promise.all(
       medicinsArray.map((medicin) => fetchDataFromStrapi(medicin.id))
@@ -34,7 +35,6 @@ router.post("/pdf", async (req, res) => {
     const pdfBuffers = [];
 
     for (const data of allData) {
-      // Create a separate PDF for each medicine
       const pdfBytes = await createPdf(data);
       pdfBuffers.push(pdfBytes);
     }
@@ -42,7 +42,7 @@ router.post("/pdf", async (req, res) => {
     const combinedPdfBytes = await combinePdfs(pdfBuffers);
 
     res.end(combinedPdfBytes);
-    
+
   } catch (error) {
     console.error("Error fetching data from Strapi:", error);
     res.status(500).send("Internal Server Error");
