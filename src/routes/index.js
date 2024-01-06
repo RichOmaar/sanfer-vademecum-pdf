@@ -24,20 +24,10 @@ async function combinePdfs(pdfBuffers) {
 
 router.post("/pdf", async (req, res) => {
   const medicinsArray = req.body;
-  // const medicinsArray = [
-  //   { id: 3 },
-  //   { id: 105 },
-  //   { id: 18 },
-  //   { id: 25 },
-  //   { id: 66 },
-  // ];
   try {
-    // Fetch all data from Strapi concurrently
     const allData = await Promise.all(
       medicinsArray.map((medicin) => fetchDataFromStrapi(medicin.id))
     );
-      // console.log(allData[0].ipp);
-    // Set the headers for PDF response
     res.setHeader("Content-Type", "application/pdf; charset=utf-8");
     res.setHeader("Content-Disposition", "attachment; filename=combined.pdf");
 
@@ -51,9 +41,8 @@ router.post("/pdf", async (req, res) => {
 
     const combinedPdfBytes = await combinePdfs(pdfBuffers);
 
-    // Send the combined PDF to the client
     res.end(combinedPdfBytes);
-    // res.status(200).send('Received POST request');
+    
   } catch (error) {
     console.error("Error fetching data from Strapi:", error);
     res.status(500).send("Internal Server Error");
