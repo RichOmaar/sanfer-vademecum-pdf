@@ -22,7 +22,7 @@ async function combinePdfs(pdfBuffers) {
   return await combinedPdf.save();
 }
 
-router.post("/invoice", async (req, res) => {
+router.post("/pdf", async (req, res) => {
   const medicinsArray = req.body;
   // const medicinsArray = [
   //   { id: 3 },
