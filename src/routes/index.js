@@ -28,8 +28,8 @@ router.post("/pdf", async (req, res) => {
     const allData = await Promise.all(
       medicinsArray.map((medicin) => fetchDataFromStrapi(medicin.id))
     );
-    res.setHeader("Content-Type", "application/pdf; charset=utf-8");
-    res.setHeader("Content-Disposition", "attachment; filename=combined.pdf");
+    // res.setHeader("Content-Type", "application/pdf; charset=utf-8");
+    // res.setHeader("Content-Disposition", "attachment; filename=combined.pdf");
 
     const pdfBuffers = [];
 
